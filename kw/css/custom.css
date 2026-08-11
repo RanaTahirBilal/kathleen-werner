@@ -268,3 +268,63 @@ body{ background-color:var(--gt-ink-deep); }
 .gt-contact-list i{ color:var(--gt-accent); font-size:20px; }
 .gt-contact-list a{ color:#fff; text-decoration:none; border-bottom:1px solid rgba(227,198,126,.5); }
 .gt-contact-list a:hover{ color:var(--gt-accent); }
+
+/* ============================================================
+   PALETTE REFINEMENT
+   Problem: neutral sections and brand bands had collapsed to nearly the
+   same maroon, so the page read as one flat field with no rhythm.
+   Fix: neutral sections go to a warm near-black; the oxblood is reserved
+   for the accent bands so they read as bands; hero overlay lightened so
+   the photograph survives it.
+   ============================================================ */
+
+/* 1. Neutral ground: warm near-black, not maroon. */
+body{ background-color:#15100F !important; }
+
+/* 2. Brand bands: deeper and less candied, so gold reads cleanly on them. */
+.author-skills.bg-red{ background-color:rgba(21,16,15,.86) !important; }
+.gt-quote.bg-red{ background-color:#57192A !important; }
+.gt-contact.bg-red{ background-color:#57192A !important; }
+
+/* 3. Hero: let the photograph through instead of flooding it. */
+.gt-hero{ background:#15100F; }
+.gt-hero-media::after{
+    background:linear-gradient(100deg,
+        rgba(21,16,15,.95) 0%,
+        rgba(21,16,15,.86) 30%,
+        rgba(30,14,18,.45) 62%,
+        rgba(40,16,22,.10) 100%);
+}
+
+/* 4. Cards: light glass on the dark ground rather than maroon on maroon. */
+.gt-card{
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.09);
+    border-left:3px solid var(--gt-accent);
+}
+.gt-card:hover{
+    background:rgba(255,255,255,.07);
+    border-color:rgba(217,178,106,.4);
+    border-left-color:var(--gt-accent);
+}
+
+/* 5. Accent: a touch brighter for contrast against near-black. */
+:root{ --gt-accent:#D9B26A; }
+.gt-name-accent{ color:#D9B26A !important; }
+.gt-recog-label, .gt-contact-body .sub-heading, .gt-path-head .sub-heading{ color:#D9B26A; }
+
+/* 6. Carousel scrim follows the neutral ground, not the brand colour. */
+.project-sec .project-area .project-img::after{
+    background:linear-gradient(90deg,
+        rgba(21,16,15,.93) 0%,
+        rgba(21,16,15,.80) 28%,
+        rgba(21,16,15,.34) 58%,
+        rgba(21,16,15,0) 88%);
+}
+
+/* 7. A hairline between the dark ground and each band, so edges are intentional. */
+.gt-quote.bg-red, .gt-contact.bg-red{ border-top:1px solid rgba(217,178,106,.28); }
+
+/* 8. Section eyebrows were brand-maroon on near-black, far below any
+      readable contrast. Gold on the dark ground instead. */
+#about .text-red, .gt-focus .text-red, .heading-area .text-red{ color:var(--gt-accent) !important; }
