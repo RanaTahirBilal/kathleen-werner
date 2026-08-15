@@ -102,4 +102,64 @@
       lazies.forEach(function (img) { if (!img.complete || !img.naturalWidth) { wake(img); } });
     }, 4000);
   }
+
+  /* Drawer keyboard and screen-reader support.
+
+     The audit found three gaps the template never covered: the toggle never
+     announced its state, Escape did nothing, and focus stayed behind the
+     drawer while it was open. All three are added here rather than by editing
+     the vendor script. */
+  var toggle = document.getElementById('sidemenu_toggle');
+  var drawer = document.querySelector('.side-menu');
+  var closeBtn = document.getElementById('btn_sideNavClose');
+
+  if (toggle && drawer) {
+    var open = function () { return drawer.className.indexOf('side-menu-active') !== -1; };
+
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-controls', 'side-menu');
+    if (!drawer.id) { drawer.id = 'side-menu'; }
+
+    // The template toggles a class; mirror that into aria and body scroll.
+    var sync = function () {
+      var isOpen = open();
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+      if (isOpen) {
+        var first = drawer.querySelector('a, button, [tabindex]:not([tabindex="-1"])');
+        if (first) { first.focus(); }
+      }
+    };
+    new MutationObserver(sync).observe(drawer, { attributes: true, attributeFilter: ['class'] });
+
+    document.addEventListener('keydown', function (e) {
+      if (!open()) { return; }
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        if (closeBtn) { closeBtn.click(); }
+        toggle.focus();
+        return;
+      }
+      // Keep Tab inside the drawer while it is the only thing on screen.
+      if (e.key !== 'Tab') { return; }
+      var items = [].slice.call(
+        drawer.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"])')
+      ).filter(function (el) { return el.getBoundingClientRect().width > 0; });
+      if (!items.length) { return; }
+      var first = items[0];
+      var last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+
+  /* The hamburger showed no focus ring: the template sets outline:none on it
+     with enough specificity to beat the generic rule in kw-fix.css. */
+  if (toggle) {
+    toggle.addEventListener('focus', function () {
+      if (toggle.matches(':focus-visible')) {
+        toggle.style.boxShadow = '0 0 0 3px #15100F, 0 0 0 6px #D9B26A';
+      }
+    });
+    toggle.addEventListener('blur', function () { toggle.style.boxShadow = ''; });
+  }
 }());
