@@ -32,6 +32,7 @@
     <link href="kw/css/line-awesome.min.css" rel="stylesheet">
     <link href="kw/css/style.css" rel="stylesheet">
     <link href="kw/css/custom.css" rel="stylesheet">
+    <link href="kw/css/kw-fix.css" rel="stylesheet">
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"Attorney","name":"Kathleen M. Werner",
      "jobTitle":"Owner","worksFor":{"@type":"LegalService","name":"The Dorsey Law Firm, P.C.",
@@ -41,7 +42,6 @@
      "alumniOf":[{"@type":"CollegeOrUniversity","name":"University of Mary Washington"},
                  {"@type":"CollegeOrUniversity","name":"University of Baltimore School of Law"}]}
     </script>
-<link rel="icon" type="image/svg+xml" href="vendor/img/favicon.svg">
 </head>
 
 <body data-spy="scroll" data-target=".navbar" data-offset="90">
@@ -117,17 +117,17 @@
             <div class="container">
                 <div class="row text-center text-lg-left">
                     <div class="col-12 col-md-4 about-media wow zoomIn" data-wow-duration="1.5s" data-wow-delay="1.2s">
-                        <span class="about-icon"><a href="#about" class="scroll"><i class="las la-hourglass-half"></i></a></span>
+                        <span class="about-icon"><a href="#about" class="scroll" aria-label="Read about her thirty-three years at the firm"><i class="las la-hourglass-half" aria-hidden="true"></i></a></span>
                         <h4 class="small-heading main-font">One Firm, Since 1991</h4>
                         <p class="small-text alt-font">Clerk, associate, partner, owner. Thirty-three years and four titles at the same address, which is not a common thing in law.</p>
                     </div>
                     <div class="col-12 col-md-4 about-media wow zoomIn" data-wow-duration="1.5s" data-wow-delay="1.5s">
-                        <span class="about-icon"><a href="#focus" class="scroll"><i class="las la-gavel"></i></a></span>
+                        <span class="about-icon"><a href="#focus" class="scroll" aria-label="Read about injury and compensation work"><i class="las la-gavel" aria-hidden="true"></i></a></span>
                         <h4 class="small-heading main-font">Injury And Compensation</h4>
                         <p class="small-text alt-font">Auto accident and workers' compensation matters. The cases where an ordinary week turns into a claim nobody planned for.</p>
                     </div>
                     <div class="col-12 col-md-4 about-media wow zoomIn" data-wow-duration="1.5s" data-wow-delay="1.8s">
-                        <span class="about-icon"><a href="#focus" class="scroll"><i class="las la-balance-scale"></i></a></span>
+                        <span class="about-icon"><a href="#focus" class="scroll" aria-label="Read about her service to the bar"><i class="las la-balance-scale" aria-hidden="true"></i></a></span>
                         <h4 class="small-heading main-font">Trusted By The Bar</h4>
                         <p class="small-text alt-font">A trustee of the Client Protection Fund of the Bar of Maryland since 2018. The profession's own safeguard, and lawyers choose who holds it.</p>
                     </div>
@@ -216,10 +216,10 @@
             <div class="col-12 text-center wow fadeIn" data-wow-duration="1.5s">
                 <span class="gt-recog-label alt-font">Recognition and service</span>
                 <div class="row gt-recog-row">
-                    <div class="col-6 col-lg-3"><p class="gt-recog-item">Maryland's Top 100 Women, The Daily Record, 2020</p></div>
-                    <div class="col-6 col-lg-3"><p class="gt-recog-item">Pinnacle Professional Member, The Inner Circle, 2026</p></div>
-                    <div class="col-6 col-lg-3"><p class="gt-recog-item">Trustee, Client Protection Fund of the Bar of Maryland, since 2018</p></div>
-                    <div class="col-6 col-lg-3"><p class="gt-recog-item">Maryland State Bar Association and Maryland Association for Justice</p></div>
+                    <div class="col-12 col-sm-6 col-lg-3"><p class="gt-recog-item">Maryland's Top 100 Women, The Daily Record, 2020</p></div>
+                    <div class="col-12 col-sm-6 col-lg-3"><p class="gt-recog-item">Pinnacle Professional Member, The Inner Circle, 2026</p></div>
+                    <div class="col-12 col-sm-6 col-lg-3"><p class="gt-recog-item">Trustee, Client Protection Fund of the Bar of Maryland, since 2018</p></div>
+                    <div class="col-12 col-sm-6 col-lg-3"><p class="gt-recog-item">Maryland State Bar Association and Maryland Association for Justice</p></div>
                 </div>
                 <p class="gt-quote-cite">Beyond the firm: president of the St. Mary's Animal Welfare League, president of the St. Mary's County League of Women Voters, and a member of the St. Mary's County Adult Public Guardianship Review Board.</p>
             </div>
@@ -236,10 +236,10 @@
         <p class="alt-font">Read it in order. Every step below happened at the same firm, except the two that got her there.</p>
     </div>
     <div id="project-sec" class="project-sec">
-        <div class="projects owl-carousel owl-theme no-gutters">
+        <div class="gt-path-list no-gutters">
             <div class="item project-area">
                 <div class="project-img order-1">
-                    <img loading="lazy" src="kw/images/p1.jpg" width="1400" height="788" alt="A congressional office corridor">
+                    <img loading="lazy" decoding="async" src="kw/images/p1.jpg" width="1400" height="788" alt="A congressional office corridor">
                 </div>
                 <div class="container">
                     <div class="project-detail text-center text-lg-left order-2">
@@ -318,12 +318,6 @@
                 </div>
             </div>
         </div>
-        <div class="project-links-left d-none d-md-block">
-            <a class="customPrevBtn" role="button" tabindex="0" aria-label="Previous"><i class="las la-angle-left"></i></a>
-        </div>
-        <div class="project-links-right d-none d-md-block">
-            <a class="customNextBtn" role="button" tabindex="0" aria-label="Next"><i class="las la-angle-right"></i></a>
-        </div>
     </div>
 </section>
 <!-- END PATH -->
@@ -370,5 +364,6 @@
 <script src="vendor/js/wow.min.js"></script>
 <script src="kw/js/script.js"></script>
 
+<script src="kw/js/kw-fix.js"></script>
 </body>
 </html>
