@@ -1,0 +1,268 @@
+/* Kathleen M. Werner — responsive and reveal fixes.
+   Loaded last, after custom.css. Everything here is a correction to a defect
+   found in testing, not a restyle. Notes on each block explain what broke. */
+
+/* ---------------------------------------------------------------
+   1. WOW.js reveal safety net.
+   WOW puts visibility:hidden on every .wow element and only clears it when
+   its scroll callback fires. On this site the About photo stayed hidden
+   permanently at desktop widths. Nothing on this page is allowed to be
+   invisible because a script missed a callback. kw-fix.js drives the fade
+   instead, scoped to .kw-anim so a JS failure leaves the page readable.
+   --------------------------------------------------------------- */
+.wow,
+.animated,
+.animate-fade {
+    visibility: visible !important;
+    animation-name: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+}
+
+html.kw-anim .wow {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .7s ease, transform .7s ease;
+    will-change: opacity, transform;
+}
+
+html.kw-anim .wow.kw-in {
+    opacity: 1 !important;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html.kw-anim .wow {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+/* ---------------------------------------------------------------
+   2. The career timeline.
+   It used to be an Owl carousel: autoplaying every 8 seconds, nav:false,
+   dots:false, and the only arrows hidden below 768px. Four of the five
+   steps in her career were unreachable on a phone and undiscoverable on a
+   desktop. The copy above it says "read it in order", so it is now a plain
+   stacked timeline. The carousel init no longer matches anything because
+   the class changed in the markup.
+   --------------------------------------------------------------- */
+.gt-path-list {
+    display: block;
+}
+
+.gt-path-list .item.project-area {
+    position: relative;
+    margin: 0 0 8px;
+}
+
+.gt-path-list .item.project-area:last-child {
+    margin-bottom: 0;
+}
+
+.gt-path-list .project-img {
+    position: relative;
+    overflow: hidden;
+}
+
+.gt-path-list .project-img img {
+    display: block;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    object-position: center 38%;
+}
+
+/* Text sits over the photo from tablet up, and below it on phones where an
+   overlay would leave nowhere for four lines of copy to go. */
+.gt-path-list .project-detail {
+    position: relative;
+    z-index: 2;
+    padding: 26px 0 46px;
+}
+
+.gt-path-list .project-detail .col-10 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-left: 0;
+}
+
+.gt-path-list .gt-project-org {
+    margin-bottom: 6px;
+}
+
+.gt-path-list .project-heading {
+    margin-bottom: 10px;
+}
+
+.gt-path-list .project-text {
+    margin-bottom: 0;
+    max-width: 62ch;
+}
+
+/* A left rule down the timeline so the five steps read as one sequence
+   rather than five unrelated blocks. */
+@media (min-width: 768px) {
+    .gt-path-list .project-img img {
+        height: 340px;
+    }
+
+    .gt-path-list .item.project-area {
+        margin-bottom: 14px;
+    }
+
+    .gt-path-list .project-detail {
+        padding: 30px 0 54px;
+    }
+
+    .gt-path-list .project-detail .col-10 {
+        padding-left: 22px;
+        border-left: 3px solid #9E7B3D;
+    }
+}
+
+@media (min-width: 992px) {
+    .gt-path-list .project-img img {
+        height: 420px;
+    }
+
+    .gt-path-list .project-detail .col-10 {
+        -ms-flex: 0 0 66%;
+        flex: 0 0 66%;
+        max-width: 66%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .gt-path-list .project-img img {
+        height: 470px;
+    }
+}
+
+/* ---------------------------------------------------------------
+   3. Recognition band.
+   The four items were col-6 at every width, which meant two columns roughly
+   twelve characters wide at 360px. One column on phones.
+   --------------------------------------------------------------- */
+@media (max-width: 575px) {
+    .gt-recog-item {
+        text-align: left;
+        max-width: 30ch;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* ---------------------------------------------------------------
+   4. Touch targets.
+   Menu links measured 28px tall and the drawer close button 34x22. The
+   guidance is 44px. These add padding rather than font size so nothing
+   about the design changes.
+   --------------------------------------------------------------- */
+.side-menu .side-nav .nav-item .nav-link {
+    display: inline-block;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    min-height: 44px;
+    line-height: 26px;
+}
+
+.side-menu .btn-close {
+    width: 46px;
+    height: 46px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.sidemenu_btn {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
+}
+
+.gt-contact a[href^="tel:"],
+.gt-contact a[href^="mailto:"] {
+    display: inline-block;
+    padding: 8px 0;
+    min-height: 44px;
+}
+
+/* ---------------------------------------------------------------
+   5. Focus visibility.
+   Nothing on the page showed a focus ring when tabbed through. box-shadow
+   rather than outline, because an outline shorthand carrying a custom
+   property loses the cascade against the template's own outline resets.
+   --------------------------------------------------------------- */
+html body *:focus-visible {
+    box-shadow: 0 0 0 3px #15100F, 0 0 0 6px #D9B26A !important;
+    border-radius: 3px;
+    position: relative;
+    z-index: 5;
+}
+
+/* ---------------------------------------------------------------
+   6. Hero framing on phones.
+   The portrait was centred, which put the crop across the middle of her
+   face at narrow widths. Bias the focal point upward and give the copy
+   room instead of forcing it into a fixed-height box.
+   --------------------------------------------------------------- */
+@media (max-width: 767px) {
+    .gt-hero-media {
+        background-position: center 22%;
+    }
+
+    .gt-hero {
+        min-height: 0;
+        padding-top: 96px;
+        padding-bottom: 64px;
+    }
+
+    .gt-hero-inner {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/* ---------------------------------------------------------------
+   7. Overflow guard.
+   Belt and braces after removing the carousel: nothing in the page body is
+   allowed to push the document wider than the viewport.
+   --------------------------------------------------------------- */
+html,
+body {
+    overflow-x: hidden;
+}
+
+img,
+video {
+    max-width: 100%;
+}
+
+/* ---------------------------------------------------------------
+   8. Remaining touch targets.
+   The three icon links in the red band measured 56x17 and carried no
+   accessible name; the "Path" menu item was 38px wide because inline-block
+   shrinks to the word. Both fixed without changing how anything looks.
+   --------------------------------------------------------------- */
+.about-icon a {
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    min-width: 56px;
+    min-height: 56px;
+}
+
+.side-menu .side-nav .nav-item .nav-link {
+    min-width: 44px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
