@@ -74,4 +74,32 @@
       if (history.replaceState) { history.replaceState(null, '', id); }
     });
   });
+
+  /* Native loading="lazy" was leaving photos unpainted in production: the file
+     downloaded, the element stayed blank. Rather than trust the browser's own
+     deferral, watch each lazy image and load it outright once it is close. */
+  var lazies = [].slice.call(document.querySelectorAll('img[loading="lazy"]'));
+  if (lazies.length) {
+    var wake = function (img) {
+      if (img.dataset.kwWoke) { return; }
+      img.dataset.kwWoke = '1';
+      img.removeAttribute('loading');
+      var src = img.getAttribute('src');
+      if (src && !img.complete) { img.src = src; }
+    };
+    if ('IntersectionObserver' in window) {
+      var lio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { wake(e.target); lio.unobserve(e.target); }
+        });
+      }, { rootMargin: '600px 0px' });
+      lazies.forEach(function (img) { lio.observe(img); });
+    } else {
+      lazies.forEach(wake);
+    }
+    // Anything still blank after the page settles gets loaded regardless.
+    window.setTimeout(function () {
+      lazies.forEach(function (img) { if (!img.complete || !img.naturalWidth) { wake(img); } });
+    }, 4000);
+  }
 }());
